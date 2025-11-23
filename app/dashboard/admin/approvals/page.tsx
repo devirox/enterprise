@@ -1,4 +1,7 @@
 import React from 'react'
+// Ensure this page is rendered dynamically at request time so builds don't
+// attempt to connect to the production database during static prerender.
+export const dynamic = 'force-dynamic'
 import prisma from '@/lib/prisma'
 import { approveUserAction } from '../actions'
 

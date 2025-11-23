@@ -5,6 +5,10 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import Image from "next/image";
+import logo from "../../../images/logo.png";
+
+
 
 const menuItems = [
   { id: "finance", name: "Finance", href: "/finance" },
@@ -31,7 +35,7 @@ export const HeroHeader = () => {
       <header>
         <nav className="absolute top-0 left-0 z-20 w-full transition-all duration-300">
           <div className="mx-auto max-w-6xl px-6">
-            <div className="relative flex flex-wrap items-center justify-between gap-6 py-6 transition-all duration-200 lg:gap-0">
+            <div className="relative flex flex-wrap items-center justify-between gap-6 transition-all duration-200 lg:gap-0">
               
               {/* Left: Logo + Desktop Navigation */}
               <div className="flex w-full justify-between gap-6 lg:w-auto">
@@ -42,11 +46,11 @@ export const HeroHeader = () => {
                   href="/"
                 >
                   <span className="sr-only">DeviroxN</span>
-                  <img
+                  <Image
                     alt="DeviroxN logo"
-                    className={cn("h-7 w-auto", "dark:filter dark:invert")}
-                    height={32}
-                    src="/deviroxn-logo.svg"
+                    className={cn("h-24 w-auto", "dark:filter dark:invert")}
+                    height={48}
+                    src={logo}
                     width={160}
                   />
                 </a>

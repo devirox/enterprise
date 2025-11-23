@@ -31,10 +31,23 @@ export default function ContactUs1() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
       })
-      const data = await res.json();
+
+      // Parse JSON when possible, otherwise fall back to text to avoid
+      // unhandled SyntaxError when the server returns plain text/HTML on 500.
+      let data: any = null
+      try {
+        data = await res.json()
+      } catch (parseErr: any) {
+        const text = await res.text()
+        // If the server returned HTML or plain text (e.g. "Internal Server Error"),
+        // surface that to the user instead of throwing a JSON parse error.
+        setErrorMsg(text || 'Server error')
+        return
+      }
+
       if (!res.ok) {
-        setErrorMsg(data?.error || 'Submission failed');
-        return;
+        setErrorMsg(data?.error || 'Submission failed')
+        return
       }
       setName('');
       setEmail('');
