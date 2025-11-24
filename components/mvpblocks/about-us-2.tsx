@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { NumberTicker } from '@/components/ui/counter';
-import { useTheme } from 'next-themes';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
+import { NumberTicker } from "../number-ticker";
+
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+// import { Badge } from "@/components/ui/badge";
+import { Badge } from "../components/ui/badge";
 import {
   Users,
   Award,
@@ -17,7 +20,7 @@ import {
   CheckCircle,
   Clock,
   Zap,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface StatItemProps {
   value: number;
@@ -34,7 +37,7 @@ const StatItem = ({
   icon,
   delay = 0,
   decimalPlaces = 0,
-  color = 'from-primary to-primary/70',
+  color = "from-primary to-primary/70",
 }: StatItemProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -45,33 +48,33 @@ const StatItem = ({
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.6, delay: delay, ease: 'easeOut' }}
+      transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
       className={cn(
-        'group border-border/30 bg-card relative overflow-hidden rounded-xl border p-6',
-        resolvedTheme === 'dark'
-          ? 'shadow-xl shadow-black/5'
-          : 'shadow-lg shadow-black/[0.03]',
+        "group border-border/30 bg-card relative overflow-hidden rounded-xl border p-6",
+        resolvedTheme === "dark"
+          ? "shadow-xl shadow-black/5"
+          : "shadow-lg shadow-black/[0.03]"
       )}
     >
       <div
         className={cn(
-          'absolute -top-6 -right-6 h-24 w-24 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-all duration-500 group-hover:opacity-30 group-hover:blur-3xl',
-          color,
+          "absolute -top-6 -right-6 h-24 w-24 rounded-full bg-gradient-to-br opacity-20 blur-2xl transition-all duration-500 group-hover:opacity-30 group-hover:blur-3xl",
+          color
         )}
       />
 
       <div className="flex items-center gap-4">
         <div
           className={cn(
-            'flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white',
-            color,
+            "flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white",
+            color
           )}
         >
           {icon}
         </div>
 
         <div className="flex flex-col">
-          <h3 className="flex items-baseline text-3xl font-bold tracking-tight">
+          <h3 className="mb-1 flex items-baseline text-3xl font-bold leading-none">
             <NumberTicker
               value={value}
               decimalPlaces={decimalPlaces}
@@ -96,35 +99,35 @@ export default function AboutUs2() {
 
   const stats = [
     {
-      value: 5000,
-      label: 'Happy Clients',
-      icon: <Users className="h-5 w-5" />,
+      value: 3,
+      label: "Core branches (Finance, Marketplace, Real-Estate)",
+      icon: <Building className="h-5 w-5" />,
       delay: 0,
-      color: 'from-rose-500 to-orange-500',
+      color: "from-rose-500 to-orange-500",
       decimalPlaces: 0,
     },
     {
-      value: 15,
-      label: 'Years Experience',
-      icon: <Clock className="h-5 w-5" />,
+      value: 9,
+      label: "Role-based dashboards (admin, staff, customer)",
+      icon: <Briefcase className="h-5 w-5" />,
       delay: 0.1,
-      color: 'from-blue-500 to-cyan-500',
-      decimalPlaces: 0,
-    },
-    {
-      value: 100,
-      label: 'Projects Completed',
-      icon: <CheckCircle className="h-5 w-5" />,
-      delay: 0.2,
-      color: 'from-green-500 to-emerald-500',
+      color: "from-blue-500 to-cyan-500",
       decimalPlaces: 0,
     },
     {
       value: 24,
-      label: 'Awards Won',
-      icon: <Award className="h-5 w-5" />,
+      label: "API endpoints for finance, marketplace, listings",
+      icon: <Code className="h-5 w-5" />,
+      delay: 0.2,
+      color: "from-green-500 to-emerald-500",
+      decimalPlaces: 0,
+    },
+    {
+      value: 100,
+      label: "TypeScript & Prisma-powered, production ready",
+      icon: <CheckCircle className="h-5 w-5" />,
       delay: 0.3,
-      color: 'from-purple-500 to-violet-500',
+      color: "from-purple-500 to-violet-500",
       decimalPlaces: 0,
     },
   ];
@@ -159,7 +162,7 @@ export default function AboutUs2() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="mb-4 flex justify-center"
           >
             <Badge
@@ -167,26 +170,28 @@ export default function AboutUs2() {
               className="border-primary/20 bg-primary/5 rounded-full px-4 py-1 text-sm font-medium"
             >
               <Sparkles className="text-primary mr-1 h-3.5 w-3.5" />
-              About Us
+              About DeviroxN Enterprise
             </Badge>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="from-foreground to-foreground/70 bg-gradient-to-b bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl"
           >
-            About Our Company
+            One platform for finance, marketplace & real estate
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-muted-foreground mt-4 text-xl"
           >
-            Delivering excellence for over 15 years
+            DeviroxN Enterprise is a full-stack portfolio system that brings
+            together smart finance tools, a modern marketplace, and real-estate
+            management — all on a single Next.js + Prisma stack.
           </motion.p>
         </div>
 
@@ -215,7 +220,7 @@ export default function AboutUs2() {
               animate={
                 aboutInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
               }
-              transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
+              transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
               className="relative space-y-6"
             >
               <div className="from-primary/80 to-primary/60 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-lg">
@@ -225,9 +230,11 @@ export default function AboutUs2() {
               <h2 className="text-2xl font-bold tracking-tight">Our Mission</h2>
 
               <p className="text-muted-foreground text-base leading-relaxed">
-                To empower businesses with innovative digital solutions that
-                drive growth, enhance user experiences, and create lasting value
-                in an ever-evolving technological landscape.
+                Our mission with DeviroxN Enterprise is to show what a real
+                production-ready platform can look like: shared auth, clean
+                dashboards, and secure APIs for finance, marketplace, and
+                real-estate — all built so businesses can launch faster and
+                developers can reuse solid patterns.
               </p>
             </motion.div>
 
@@ -236,7 +243,7 @@ export default function AboutUs2() {
               animate={
                 aboutInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
               }
-              transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
               className="relative space-y-6"
             >
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/80 to-blue-500/60 text-white shadow-lg">
@@ -246,9 +253,11 @@ export default function AboutUs2() {
               <h2 className="text-2xl font-bold tracking-tight">Our Vision</h2>
 
               <p className="text-muted-foreground text-base leading-relaxed">
-                To be the leading provider of transformative digital
-                experiences, recognized globally for our commitment to
-                excellence, innovation, and client success.
+                The vision is simple: a single codebase where a micro-finance
+                app, a seller marketplace, and a real-estate portal can live
+                together — sharing roles, sessions, and infrastructure — while
+                still feeling like focused products for admins, staff, and
+                customers.
               </p>
             </motion.div>
           </div>
@@ -256,17 +265,25 @@ export default function AboutUs2() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={aboutInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
+            transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
             className="mt-16 flex items-start gap-4"
           >
             <div className="from-primary/20 to-primary/5 text-primary inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br">
               <Building className="h-5 w-5" />
             </div>
             <p className="text-muted-foreground text-base leading-relaxed">
-              We are a passionate team of experts dedicated to delivering
-              exceptional solutions that help businesses thrive in the digital
-              landscape. Our commitment to innovation and quality has made us a
-              trusted partner for organizations worldwide.
+              Under the hood, DeviroxN Enterprise uses Next.js App Router,
+              NextAuth, Prisma, Neon/Postgres, and role-aware routes like
+              <span className="font-medium">
+                {" "}
+                /dashboard/admin, /dashboard/customer, /dashboard/staff{" "}
+              </span>
+              plus focused branches at{" "}
+              <span className="font-medium">
+                /finance, /marketplace, /real-estate
+              </span>
+              . It’s a living portfolio project designed to be extended into a
+              real SaaS or internal tool.
             </p>
           </motion.div>
         </div>
@@ -278,49 +295,51 @@ export default function AboutUs2() {
             animate={
               timelineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
             }
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-10 text-center text-2xl font-bold tracking-tight md:text-3xl"
           >
-            Our Journey
+            The DeviroxN Enterprise journey
           </motion.h2>
 
           <div className="border-border/60 relative ml-4 border-l pl-8 md:ml-0 md:border-none md:pl-0">
             {[
               {
-                year: '2008',
-                title: 'Founded',
+                year: "2024",
+                title: "First portfolio launches",
                 description:
-                  'Our company was established with a vision to transform digital experiences.',
+                  "Started with focused landing pages and authentication flows to showcase clean UI and modern Next.js patterns.",
               },
               {
-                year: '2015',
-                title: 'Global Expansion',
+                year: "2025",
+                title: "DeviroxN Enterprise scaffold",
                 description:
-                  'Expanded operations to serve clients across 20+ countries worldwide.',
+                  "Introduced a shared auth layer, Prisma integration, and the first version of admin, staff, and customer dashboards.",
               },
               {
-                year: '2019',
-                title: 'Innovation Award',
+                year: "2025",
+                title: "Finance, Marketplace & Real-Estate branches",
                 description:
-                  'Recognized for our cutting-edge solutions and technological innovation.',
+                  "Added dedicated routes and APIs for savings & loans, product listings, and property management with role-based access.",
               },
               {
-                year: '2023',
-                title: 'New Horizons',
+                year: "Next",
+                title: "From portfolio to production",
                 description:
-                  'Launched new service offerings to meet evolving market demands.',
+                  "Hardening the platform with more tests, observability, and real-world features so it can power client work and future SaaS products.",
               },
             ].map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={
-                  timelineInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
+                  timelineInView
+                    ? { opacity: 1, x: 0 }
+                    : { opacity: 0, x: -20 }
                 }
                 transition={{
                   duration: 0.5,
                   delay: 0.1 * index,
-                  ease: 'easeOut',
+                  ease: "easeOut",
                 }}
                 className="relative mb-10 md:grid md:grid-cols-5 md:gap-8"
               >
@@ -330,7 +349,9 @@ export default function AboutUs2() {
                   </div>
                 </div>
                 <div className="md:col-span-4">
-                  <h3 className="text-lg font-bold md:text-xl">{item.title}</h3>
+                  <h3 className="text-lg font-bold md:text-xl">
+                    {item.title}
+                  </h3>
                   <p className="text-muted-foreground mt-1">
                     {item.description}
                   </p>

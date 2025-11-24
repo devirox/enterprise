@@ -34,9 +34,27 @@ model User {
   listings        Listing[]
   loans           Loan[]
   products        Product[]           @relation("SellerProducts")
+  auditLogs       AuditLog[]
+  featureFlags    FeatureFlag[]
   savings         Savings[]
   sessions        Session[]
   tokens          VerificationToken[]
+}
+
+// Audit log for admin actions
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation(fields: [actorId], references: [id])
+  action     String
+  resource   String?
+  resourceId String?
+  meta       Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([resource, resourceId])
 }
 
 model Savings {
@@ -63,6 +81,7 @@ model Product {
   description String?
   price       Decimal
   sellerId    String
+  isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   ads         Ad[]
   seller      User     @relation("SellerProducts", fields: [sellerId], references: [id])
@@ -82,9 +101,22 @@ model Listing {
   description String?
   price       Decimal
   realtorId   String
+  isApproved  Boolean  @default(false)
   type        String
   createdAt   DateTime @default(now())
   realtor     User     @relation(fields: [realtorId], references: [id])
+}
+
+model FeatureFlag {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  description String?
+  isActive    Boolean  @default(false)
+  value       Json?
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Account {
@@ -112,6 +144,18 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
 }
+
+// model stats{
+//   id        String   @id @default(cuid())
+//   title    String
+//   value    Int
+//   change   Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   icon     String
+//   color    String
+//   bgColor  String
+// }
 
 model VerificationToken {
   id         String     @id @default(cuid())

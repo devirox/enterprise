@@ -1,169 +1,299 @@
 "use client";
+import logo from "../../../images/logo.png";
+import Image from "next/image";
+
+// "use client";
+
+import { useState, useId } from "react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
-import Image from "next/image";
-import logo from "../../../images/logo.png";
+import { Input } from "@/components/ui/input";
+import Logo from "@/components/components/navbar-components/logo";
+import NotificationMenu from "@/components/components/notification-menu";
+import UserMenu from "@/components/components/user-menu";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+} from "@/components/components/ui/navigation-menu";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/components/ui/popover";
 
-
-
-const menuItems = [
-  { id: "finance", name: "Finance", href: "/finance" },
-  { id: "marketplace", name: "Marketplace", href: "/marketplace" },
-  { id: "real-estate", name: "Real Estate", href: "/real-estate" },
-  { id: "design-system", name: "Design System", href: "/design-system" },
+// Top-level nav groups based on your routes
+const navGroups = [
+  {
+    type: "link",
+    label: "Home",
+    href: "/",
+  },
+  {
+    type: "menu",
+    label: "Solutions",
+    items: [
+      {
+        label: "Finance Suite",
+        href: "/finance",
+        description:
+          "Digital microfinance: savings, loans, disbursements & customer dashboards.",
+      },
+      {
+        label: "Marketplace Suite",
+        href: "/marketplace",
+        description:
+          "Multi-vendor marketplace for products, ads and catalog-style commerce.",
+      },
+      {
+        label: "Real Estate Suite",
+        href: "/real-estate",
+        description:
+          "Property listings, rentals, sales and lead capture for agents & brokers.",
+      },
+    ],
+  },
+  {
+    type: "menu",
+    label: "Dashboards",
+    items: [
+      {
+        label: "Customer Portal",
+        href: "/dashboard/customer",
+        description: "Single place for customers to manage finance, marketplace & real estate.",
+      },
+      {
+        label: "Admin Console",
+        href: "/dashboard/admin",
+        description: "Central control for approvals, uploads and cross-vertical settings.",
+      },
+      {
+        label: "Finance Ops",
+        href: "/dashboard/finance",
+        description: "Ops view for savings, loans and disbursements.",
+      },
+      {
+        label: "Marketplace Ops",
+        href: "/dashboard/marketplace",
+        description: "Manage products, vendors and marketplace activity.",
+      },
+      {
+        label: "Real Estate Ops",
+        href: "/dashboard/real-estate",
+        description: "Track listings, inquiries and property performance.",
+      },
+    ],
+  },
+  {
+    type: "menu",
+    label: "Resources",
+    items: [
+      {
+        label: "About DeviroxN Enterprise",
+        href: "/about",
+        description: "Learn more about the platform and how the 3 suites connect.",
+      },
+      {
+        label: "Design System",
+        href: "/design-system",
+        description: "Internal UI kit and components powering all dashboards.",
+      },
+      {
+        label: "Status & Security",
+        href: "/#status",
+        description: "Reliability, uptime and compliance information.",
+      },
+    ],
+  },
 ];
 
-// Animation constants
-const ANIMATION_DURATION = 0.2;
-const STAGGER_DELAY = 0.05;
-const EASE: any = [0.22, 1, 0.36, 1];
-const ROTATION_ANGLE = 180;
-const SCALE_MIN = 0;
-const SCALE_MAX = 1;
-const TRANSLATE_Y_OFFSET = -10;
-const TRANSLATE_X_OFFSET = -10;
+export default function HeroHeader() {
+  const pathname = usePathname();
+  const id = useId();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-export const HeroHeader = () => {
-  const [menuState, setMenuState] = useState(false);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
-    <div className="relative">
-      <header>
-        <nav className="absolute top-0 left-0 z-20 w-full transition-all duration-300">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="relative flex flex-wrap items-center justify-between gap-6 transition-all duration-200 lg:gap-0">
-              
-              {/* Left: Logo + Desktop Navigation */}
-              <div className="flex w-full justify-between gap-6 lg:w-auto">
-                {/* Logo */}
-                <a
-                  aria-label="DeviroxN Enterprise home"
-                  className="flex items-center gap-2"
-                  href="/"
-                >
-                  <span className="sr-only">DeviroxN</span>
-                  <Image
-                    alt="DeviroxN logo"
-                    className={cn("h-24 w-auto", "dark:filter dark:invert")}
-                    height={48}
-                    src={logo}
-                    width={160}
-                  />
-                </a>
-
-                {/* Mobile Menu Toggle */}
-                <button
-                  aria-label={menuState ? "Close Menu" : "Open Menu"}
-                  className="-m-2.5 -mr-4 block p-2.5 lg:hidden relative z-20"
-                  onClick={() => setMenuState(!menuState)}
-                >
-                  <AnimatePresence mode="wait">
-                    {menuState ? (
-                      <motion.div
-                        key="close"
-                        initial={{ opacity: 0, rotate: ROTATION_ANGLE, scale: SCALE_MIN }}
-                        animate={{ opacity: 1, rotate: 0, scale: SCALE_MAX }}
-                        exit={{ opacity: 0, rotate: -ROTATION_ANGLE, scale: SCALE_MIN }}
-                        transition={{ duration: ANIMATION_DURATION, ease: EASE }}
-                      >
-                        <X className="size-6" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="menu"
-                        initial={{ opacity: 0, rotate: -ROTATION_ANGLE, scale: SCALE_MIN }}
-                        animate={{ opacity: 1, rotate: 0, scale: SCALE_MAX }}
-                        exit={{ opacity: 0, rotate: ROTATION_ANGLE, scale: SCALE_MIN }}
-                        transition={{ duration: ANIMATION_DURATION, ease: EASE }}
-                      >
-                        <Menu className="size-6" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </button>
-
-                {/* Desktop Menu */}
-                <div className="hidden lg:block m-auto">
-                  <ul className="flex gap-1">
-                    {menuItems.map((item) => (
-                      <li key={item.id}>
-                        <Button asChild size="sm" variant="ghost">
-                          <a className="text-base font-medium" href={item.href}>
-                            {item.name}
-                          </a>
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Mobile Menu Drawer */}
-              <AnimatePresence>
-                {menuState && (
-                  <motion.div
-                    className="mb-6 w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border bg-background p-6 shadow-xl shadow-zinc-300/20 
-                               lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none"
-                    initial={{ opacity: 0, y: TRANSLATE_Y_OFFSET, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: SCALE_MAX }}
-                    exit={{ opacity: 0, y: TRANSLATE_Y_OFFSET, scale: 0.95 }}
-                    transition={{ duration: ANIMATION_DURATION, ease: EASE }}
-                  >
-                    {/* Mobile list items */}
-                    <div className="lg:hidden">
-                      <ul className="space-y-6 text-base">
-                        {menuItems.map((item, i) => (
-                          <motion.li
-                            key={item.id}
-                            initial={{ opacity: 0, x: TRANSLATE_X_OFFSET }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              delay: i * STAGGER_DELAY,
-                              duration: ANIMATION_DURATION,
-                              ease: EASE,
-                            }}
-                          >
-                            <a
-                              className="block text-muted-foreground hover:text-foreground transition"
-                              href={item.href}
-                              onClick={() => setMenuState(false)}
-                            >
-                              {item.name}
-                            </a>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Buttons */}
-                    <motion.div
-                      className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: menuItems.length * STAGGER_DELAY + STAGGER_DELAY,
-                        duration: ANIMATION_DURATION,
-                        ease: EASE,
-                      }}
-                    >
-                      <Button asChild size="sm" variant="ghost" onClick={() => setMenuState(false)}>
-                        <a href="/login">Login</a>
-                      </Button>
-                      <Button asChild size="sm" onClick={() => setMenuState(false)}>
-                        <a href="/register">Sign Up</a>
-                      </Button>
-                    </motion.div>
-                  </motion.div>
+    <header className="border-b bg-background/80 backdrop-blur-lg sticky top-0 z-40 px-4 md:px-6 shadow-sm">
+      {/* TOP BAR */}
+      <div className="flex h-16 items-center justify-between gap-4">
+        {/* LEFT: Mobile menu + Logo */}
+        <div className="flex flex-1 items-center gap-2">
+          {/* Mobile menu trigger */}
+          <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden group size-9"
+              >
+                {mobileOpen ? (
+                  <X className="size-6" />
+                ) : (
+                  <Menu className="size-6" />
                 )}
-              </AnimatePresence>
-            </div>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="start"
+              className="w-64 p-3 md:hidden"
+              sideOffset={8}
+            >
+              <nav className="space-y-3 text-sm">
+                {navGroups.map((group) =>
+                  group.type === "link" ? (
+                    <a
+                      key={group.href}
+                      href={group.href}
+                      className={`block rounded-md px-3 py-2 font-medium ${
+                        isActive(group.href!)
+                          ? "bg-primary text-white"
+                          : "hover:bg-muted"
+                      }`}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {group.label}
+                    </a>
+                  ) : (
+                    <div key={group.label}>
+                      <div className="px-3 text-xs font-semibold uppercase text-muted-foreground">
+                        {group.label}
+                      </div>
+                      <div className="mt-1 space-y-1">
+                        {group.items?.map((item) => (
+                          <a
+                            key={item.href}
+                            href={item.href}
+                            className={`block rounded-md px-3 py-1.5 ${
+                              isActive(item.href)
+                                ? "bg-primary/10 text-primary"
+                                : "hover:bg-muted"
+                            }`}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            <div className="font-medium">{item.label}</div>
+                            {item.description && (
+                              <p className="text-xs text-muted-foreground">
+                                {item.description}
+                              </p>
+                            )}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                )}
+
+                {/* Mobile auth actions */}
+                <div className="mt-3 border-t pt-3 space-y-2">
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => setMobileOpen(false)}
+                    asChild
+                  >
+                    <a href="/login">Login</a>
+                  </Button>
+                  <Button
+                    className="w-full"
+                    onClick={() => setMobileOpen(false)}
+                    asChild
+                  >
+                    <a href="/register">Sign Up</a>
+                  </Button>
+                </div>
+              </nav>
+            </PopoverContent>
+          </Popover>
+
+          {/* Logo */}
+          <a href="/" className="flex items-center gap-2">
+            <Image src={logo} alt="DeviroxN Enterprise" width={30} height={30} />
+          </a>
+        </div>
+
+        {/* CENTER: Search (desktop only) */}
+        <div className="hidden md:flex flex-1 justify-center">
+          <div className="relative w-full max-w-sm">
+            <Input
+              id={id}
+              placeholder="Search products, properties or clients..."
+              className="pl-9"
+            />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           </div>
-        </nav>
-      </header>
-    </div>
+        </div>
+
+        {/* RIGHT: Notification + User menu */}
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <NotificationMenu />
+          <UserMenu />
+        </div>
+      </div>
+
+      {/* DESKTOP NAVIGATION */}
+      <div className="hidden md:block border-t py-2">
+        <NavigationMenu>
+          <NavigationMenuList className="gap-2">
+            {navGroups.map((group) =>
+              group.type === "link" ? (
+                <NavigationMenuItem key={group.href}>
+                  <NavigationMenuLink
+                    href={group.href}
+                    active={isActive(group.href!)}
+                    className={`px-3 py-1.5 text-sm font-medium ${
+                      isActive(group.href!)
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
+                    }`}
+                  >
+                    {group.label}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ) : (
+                <NavigationMenuItem key={group.label}>
+                  <NavigationMenuTrigger className="text-sm font-medium">
+                    {group.label}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="p-4">
+                    <div className="grid gap-3 md:w-[480px] lg:w-[560px] md:grid-cols-2">
+                      {group.items?.map((item) => (
+                        <a
+                          key={item.href}
+                          href={item.href}
+                          className={`group flex flex-col rounded-lg border bg-background p-3 hover:border-primary/40 hover:bg-muted/50 ${
+                            isActive(item.href)
+                              ? "border-primary/60"
+                              : "border-border"
+                          }`}
+                        >
+                          <span className="text-sm font-semibold">
+                            {item.label}
+                          </span>
+                          {item.description && (
+                            <span className="mt-1 text-xs text-muted-foreground">
+                              {item.description}
+                            </span>
+                          )}
+                        </a>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              )
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+    </header>
   );
-};
+}

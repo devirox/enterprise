@@ -1,10 +1,10 @@
 import React from 'react'
+import AdminDashboardShell from '@/components/mvpblocks'
 
 export default function AdminDashboard() {
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-      <p className="mt-2">Central admin area for all domains.</p>
+    <main className="p-4">
+      <AdminDashboardShell />
     </main>
   )
 }

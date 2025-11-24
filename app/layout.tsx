@@ -1,7 +1,7 @@
 import './globals.css'
 import React from 'react'
 import FooterComplex from '../src/components/smoothui/footer-2'
-import { HeroHeader } from '../src/components/smoothui/shared/hero-header'
+import HeroHeader from '../src/components/smoothui/shared/hero-header'
 import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata = {
